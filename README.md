@@ -104,24 +104,23 @@ series: [{
 #### 页面效果
 
 登录页面
-
-![登录](README.assets/登录.png)
+<img src="https://han-rui-hotel.oss-cn-chengdu.aliyuncs.com/%E9%80%9A%E5%8B%A4%E7%8E%87%E5%90%8E%E5%8F%B0/images/%E7%99%BB%E5%BD%95.png" width="100%" height="60%" />
 
 管理员页面
 
-![管理员](README.assets/管理员.png)
+<img src="https://han-rui-hotel.oss-cn-chengdu.aliyuncs.com/%E9%80%9A%E5%8B%A4%E7%8E%87%E5%90%8E%E5%8F%B0/images/%E7%AE%A1%E7%90%86%E5%91%98.png" width="80%" height="60%" />
 
 用户页面
 
-![用户](README.assets/用户.png)
+<img src="https://han-rui-hotel.oss-cn-chengdu.aliyuncs.com/%E9%80%9A%E5%8B%A4%E7%8E%87%E5%90%8E%E5%8F%B0/images/%E7%94%A8%E6%88%B7.png" width="80%" height="60%" />
 
 班级通勤率页面
 
-![班级](README.assets/班级.png)
+<img src="https://han-rui-hotel.oss-cn-chengdu.aliyuncs.com/%E9%80%9A%E5%8B%A4%E7%8E%87%E5%90%8E%E5%8F%B0/images/%E7%8F%AD%E7%BA%A7.png" width="100%" height="60%" />
 
 年级通勤率页面
 
-![年级](src/main/resources/static/年级.png)
+<img src="https://han-rui-hotel.oss-cn-chengdu.aliyuncs.com/%E9%80%9A%E5%8B%A4%E7%8E%87%E5%90%8E%E5%8F%B0/images/%E5%B9%B4%E7%BA%A7.png" width="100%" height="60%" />
 
 
 #### 后续计划
