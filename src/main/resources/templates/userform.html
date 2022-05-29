@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户表单</title>
+	<link rel="stylesheet" th:href="@{//unpkg.com/layui@2.6.8/dist/css/layui.css}">
+	<script type="text/javascript" th:src="@{//unpkg.com/layui@2.6.8/dist/layui.js}"></script>
+</head>
+
+<body >
+	
+	<form class="layui-form " style="margin:20px 0px 0px 20px;">
+		
+<!--		<div class="layui-form-item">-->
+<!--		  <label class="layui-form-label">家长姓名</label>-->
+<!--		  <div class="layui-input-inline">-->
+<!--		    <input type="text" name="parentsName" id="parentsName" placeholder="请输入家长姓名" autocomplete="off" class="layui-input">-->
+<!--		  </div>-->
+<!--		</div>-->
+		
+<!--	  <div class="layui-form-item">-->
+<!--	    <label class="layui-form-label">电话号码</label>-->
+<!--	    <div class="layui-input-inline">-->
+<!--	      <input type="text" name="parentsNumber" id="parentsNumber" placeholder="请输入绑定微信的手机号" autocomplete="off" class="layui-input">-->
+<!--	    </div>-->
+<!--	  </div>-->
+	  
+
+	  
+<!--	  <div class="layui-form-item">-->
+<!--	    <label class="layui-form-label">家长邮箱</label>-->
+<!--	    <div class="layui-input-inline">-->
+<!--	      <input type="text" name="email" id="email" placeholder="非必填" autocomplete="off" class="layui-input">-->
+<!--	    </div>-->
+<!--	  </div>-->
+	  
+<!--	  <div class="layui-form-item">-->
+<!--	    <label class="layui-form-label">学生关系</label>-->
+<!--	    <div class="layui-input-inline">-->
+<!--	      <select name="relationship" id="relationship" >-->
+<!--	        <option value=""></option>-->
+<!--	        <option value="爸爸">爸爸</option>-->
+<!--	        <option value="妈妈">妈妈</option>-->
+<!--	        <option value="爷爷">爷爷</option>-->
+<!--	        <option value="奶奶">奶奶</option>-->
+<!--	        <option value="姑姑">姑姑</option>-->
+<!--			<option value="姨妈">姨妈</option>-->
+<!--			<option value="外婆">外婆</option>-->
+<!--			<option value="外公">外公</option>-->
+<!--	      </select>-->
+<!--	    </div>-->
+<!--	  </div>-->
+	  
+<!--	  <div class="layui-form-item">-->
+<!--	    <label class="layui-form-label">学生性别</label>-->
+<!--	    <div class="layui-input-block">-->
+<!--	      <input type="radio" name="sex" id="sex" value="男" title="男">-->
+<!--	      <input type="radio" name="sex"  value="女" title="女" checked>-->
+<!--	    </div>-->
+<!--	  </div>-->
+		<div class="layui-form-item">
+			<label class="layui-form-label">学生姓名</label>
+			<div class="layui-input-inline">
+				<input type="text" name="studentName" id="studentName" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">学生学号</label>
+			<div class="layui-input-inline">
+				<input type="text" name="personNo" id="personNo"  placeholder="请输入学号" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+	 
+	  <div class="layui-form-item">
+	    <div class="layui-input-block">
+	      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	    </div>
+	  </div>
+	</form>
+	
+
+<script>
+    layui.use(['form','jquery'], function(){
+      var form = layui.form ,
+		  layer = layui.layer,
+		  $= layui.jquery;
+      
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+			var studentName = $.trim($("#studentName").val());
+			var personNo = $.trim($("#personNo").val())
+			$.ajax({
+				url: '/parent/AddParent',
+				type: 'POST',
+				data:{
+					"studentName": studentName,
+					"personNo": personNo,
+				},
+				success:function(data){
+					if(data.code == 1){
+						layer.msg("提交成功",function() {time:2000})
+						window.parent.frames.location.href="/home"
+					}
+				}
+			})
+        return false;
+      });
+
+    });
+
+</script>
+
+
+</body>
+</html>
+

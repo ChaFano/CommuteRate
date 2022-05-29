@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://cdn.highcharts.com.cn/highcharts/highcharts.js}"></script>
+    <script th:src="@{https://cdn.highcharts.com.cn/highcharts/modules/exporting.js}"></script>
+    <script th:src="@{https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js}"></script>
+    <link rel="stylesheet" th:href="@{//unpkg.com/layui@2.6.8/dist/css/layui.css}">
+    <script type="text/javascript" th:src="@{//unpkg.com/layui@2.6.8/dist/layui.js}"></script>
+    <script th:src="@{http://code.jquery.com/jquery-1.4.1.min.js}"></script>
+</head>
+<body class="layui-layout-body">
+    <!--头-->
+    <!--在html的head元素中通过th:replace属性引入，值为模板的路径，
+    不需要模板的后缀后面::跟的是模板的ID(即公共header页面中th:fragment定义的值)-->
+    <div th:replace="head :: header"></div>
+
+    <!--主体内容部分-->
+    <div class="layui-body" style="margin:70px 0px 0px 20px;">
+
+        <div id="container" style="max-width:600px;height:400px"></div>
+
+    </div>
+
+    <!--底部内容部分-->
+    <div th:replace="footer :: footer"></div>
+
+
+    <script type="text/javascript">
+
+        $(function(){
+            $.ajax({
+                "url": "/push-message-info/commuteGrade",
+                "type": "GET",
+                "success": function(data){
+
+                    var chart = Highcharts.chart('container',{
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: '实验小学年级通勤率统计'
+                        },
+                        subtitle: {
+                            text: '技术人员: 茶凡_Matrix'
+
+                        },
+                        xAxis: {
+                            categories: [
+                                '一年级','二年级','三年级','四年级','五年级','六年级'
+                            ],
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: '通勤率(次)'
+                            }
+                        },
+                        tooltip: {
+                            // head + 每个 point + footer 拼接成完整的 table
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} 次</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true //设置显示对应y的值
+                                }
+                            }
+                        },
+                        series: data
+                    });
+
+                    chart && myChart.setOption(chart);
+                    if(data!=null) {
+                        parent.location.reload();
+                    }
+                }
+            });
+
+        });
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>

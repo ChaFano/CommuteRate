@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{//unpkg.com/layui@2.6.8/dist/css/layui.css}">
+</head>
+
+<body class="layui-layout-body">
+
+<!--头-->
+<!--在html的head元素中通过th:replace属性引入，值为模板的路径，
+不需要模板的后缀后面::跟的是模板的ID(即公共header页面中th:fragment定义的值)-->
+<div th:replace="head :: header"></div>
+
+
+<div class="layui-body layui-container" style="margin:70px 0px 0px 20px; ">
+
+    <div class="layui-row">
+
+        <div class="layui-col-md6">
+            <table class="layui-hide" id="test" lay-filter='test'></table>
+            <button type="button" class="layui-btn layui-btn-danger" lay-submit lay-filter="delete">删除</button>
+        </div>
+
+        <div class="layui-col-md4" style="width:400px; height:300px; border:3px solid #EEEEEE;margin-top:10px">
+
+            <div style="text-align:center;font-size:16px">注册新账号</div>
+
+            <form class="layui-form " style="margin:20px 0px 0px 20px;">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userId" id="userId" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="password" id="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" id="username"  placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="register">注册</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<script type="text/javascript" th:src="@{//unpkg.com/layui@2.6.8/dist/layui.js}"></script>
+
+
+<script>
+    layui.use(['table','laypage','form','jquery'], function () {
+        var table = layui.table,
+            form = layui.form,
+            $= layui.jquery,
+            laypage = layui.laypage;
+
+        table.render({
+            elem:'#test',
+            id: 'tableId',
+            url:'/sys-admin/getUserList',
+            method: 'get',
+            even: true,
+            height: 500,
+            width: 550,
+            cols:[
+                [
+                {type: "numbers", fixed: 'aa'},
+                {type: "checkbox", fixed: 'aa'},
+                {field:'userId', width:150, title: '账号', sort: true},
+                {field:'username', width:100, title: '用户名', },
+                {field:'datetime', width:200, title: '创建时间', }
+            ]
+            ],
+            page: true , // 分页
+            limit:10,
+
+            parseData: function (res) {
+            var result;
+            console.log(this);
+            console.log(JSON.stringify(res));
+            if (this.page.curr) {
+                result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+            } else {
+                result = res.data.slice(0, this.limit);
+            }
+            return {"code": res.code, "msg": res.msg, "count": 20, "data": result};
+        }
+        });
+
+        form.on('submit(delete)',function(data){
+            var checkStatus = table.checkStatus('tableId'); //idTest 即为基础参数 id 对应的值
+            console.log(checkStatus.data[0].userId) //获取选中行的数据
+            console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+            console.log(checkStatus.isAll ) //表格是否全选
+
+            $.ajax({
+                url:'/sys-admin/deleteUser',
+                type:'GET',
+                data:{
+                    "id": checkStatus.data[0].userId
+                },
+                success:function(data){
+                    if(data.data==1){
+                        layer.msg("删除成功",function() {time:1000});
+                        parent.location.reload();
+                    }else{
+                        layer.msg("删除失败",function() {time:1000})
+                    }
+                }
+            })
+
+        });
+
+        form.on('submit(register)',function(data){
+
+            var userId = $.trim($("#userId").val());
+            var username = $.trim($("#username").val());
+            var password = $.trim($("#password").val());
+            $.ajax({
+                url:'/sys-admin/addUser',
+                type:'POST',
+                data:{
+                    "userId":userId,
+                    "username":username,
+                    "password":password
+                },
+                success:function(data){
+                    if(data.msg=="200"){
+                        layer.msg("注册成功",function() {time:1000});
+                        parent.location.reload();
+                    }else{
+                        layer.msg("注册失败",function() {time:1000})
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+
+
+</script>
+
+
+</body>
+</html>
+
