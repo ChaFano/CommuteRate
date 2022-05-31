@@ -76,13 +76,14 @@ series: [{
 <img src="https://img-blog.csdnimg.cn/c27296a240b948fd9ed12a97fd5c35ac.png" width="100%" height="60%" />
 
 
+#### 最近跟新
+1、更新了 shiro 的用户认证，资源访问验证。
 #### 后续计划
 
 1、添加验证码功能
 
 2、完善布局
 
-3、添加shiro安全策略
 
 #### 特技
 CSDN 茶凡_Matrix [https://blog.csdn.net/weixin_45833112?type=blog](https://blog.csdn.net/weixin_45833112?type=blog)

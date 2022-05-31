@@ -46,7 +46,6 @@ public class CustomerRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String userId = (String) token.getPrincipal();
-
         // 2.根据⾝份信息做查询
         SysAdmin admin = sysAdminService.findByUserId(userId);
         System.out.println(admin.toString());
