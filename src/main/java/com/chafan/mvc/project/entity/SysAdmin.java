@@ -34,15 +34,18 @@ public class SysAdmin implements Serializable {
     @TableId("user_id")
     private String userId;
 
+    @ApiModelProperty(value = "管理员姓名")
+    private String username;
+
     @ApiModelProperty(value = "登录密码")
     private String password;
 
     @ApiModelProperty(value = "添加时间")
     private LocalDateTime datetime;
 
+    @ApiModelProperty(value = "盐")
+    private String salt;
 
-    @ApiModelProperty(value = "管理员姓名")
-    private String username;
 
 
 }

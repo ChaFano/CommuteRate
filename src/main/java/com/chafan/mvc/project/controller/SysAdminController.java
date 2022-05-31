@@ -7,6 +7,12 @@ import com.chafan.mvc.utils.MD5Utils;
 import com.chafan.mvc.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,16 +32,15 @@ import java.util.Map;
 @RequestMapping("//sys-admin")
 @CrossOrigin
 public class SysAdminController {
+
     @Autowired
     ISysAdminService sysAdminService;
 
-    MD5Utils md5Utils = new MD5Utils();
 
     @ApiOperation("添加新用户")
     @PostMapping("/addUser")
     public R addUser(SysAdmin user) {
         if (sysAdminService.addUser(user).equals("添加用户成功")){
-
             return R.ok("200");
         }
         return R.ok("添加用户失败");
@@ -53,11 +58,18 @@ public class SysAdminController {
     @ApiOperation("用户登录")
     @PostMapping("/login")
     public R login( String id, String password){
-        System.out.println(id + password);
+        Subject subject = SecurityUtils.getSubject();
         Map<String,Object> map = new HashMap<String,Object>();
-        if (md5Utils.getSaltverifyMD5(password, sysAdminService.getPassword(id).getPassword())){
+        try {
+            subject.login(new UsernamePasswordToken(id,password));
             map.put("code",1);
             return R.ok(map);
+        } catch (UnknownAccountException e) {
+            e.printStackTrace();
+            System.out.println("用户名错误");
+        }catch (IncorrectCredentialsException e) {
+            e.printStackTrace();
+            System.out.println("密码错误");
         }
         map.put("code",0);
         return R.ok(map);

@@ -6,6 +6,8 @@ import com.chafan.mvc.project.mapper.SysAdminMapper;
 import com.chafan.mvc.project.service.ISysAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chafan.mvc.utils.MD5Utils;
+import com.chafan.mvc.utils.SaltUtil;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,20 +34,13 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
      */
     @Override
     public String addUser(SysAdmin user) {
-        SysAdmin sysAdmin = new SysAdmin();
-       try {
-           if (user.getUserId().equals(null)) { return "用户账号不能为空"; }
-           if (user.getPassword().equals(null)){ return "用户密码不能为空"; }
-           if (user.getUsername().equals(null)){ return "用户名不能为空"; }
-       }catch (Exception e) {
-           e.printStackTrace();
-       }
-        sysAdmin.setUserId(user.getUserId());
-        sysAdmin.setUsername(user.getUsername());
-        String slat = md5Utils.getSaltMD5(user.getPassword());
-        sysAdmin.setPassword(slat);
-        sysAdmin.setDatetime(LocalDateTime.now());
-        baseMapper.insert(sysAdmin);
+        String salt = SaltUtil.getSalt(10);
+        user.setSalt(salt);
+        Md5Hash md5Hash = new Md5Hash(user.getPassword(),salt,1024);
+        user.setDatetime(LocalDateTime.now());
+        user.setPassword(md5Hash.toHex());
+        baseMapper.insert(user);
+
         return "添加用户成功";
     }
 
@@ -103,6 +98,12 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Override
     public int deleteUser(String userId) {
         return baseMapper.deleteById(userId);
+    }
+
+    @Override
+    public SysAdmin findByUserId(String userId) {
+        System.out.println(baseMapper.selectById(userId));
+        return baseMapper.selectById(userId);
     }
 
 
