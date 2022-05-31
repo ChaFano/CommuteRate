@@ -3,7 +3,6 @@ package com.chafan.mvc.realm;
 
 import com.chafan.mvc.project.entity.SysAdmin;
 import com.chafan.mvc.project.service.ISysAdminService;
-import com.chafan.mvc.utils.ApplicationContextUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -47,16 +46,6 @@ public class CustomerRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String userId = (String) token.getPrincipal();
-
-        // 从数据库中获取对应的⽤⼾名及密码等信息做认证
-        // 1.在⼯⼚中获取service对象
-
-//        try {
-//            sysAdminService = (ISysAdminService) ApplicationContextUtils.getBean("iSysAdminService");
-//        } catch (Exception e) {
-//            System.out.println("==============================================");
-//            e.printStackTrace();
-//        }
 
         // 2.根据⾝份信息做查询
         SysAdmin admin = sysAdminService.findByUserId(userId);
