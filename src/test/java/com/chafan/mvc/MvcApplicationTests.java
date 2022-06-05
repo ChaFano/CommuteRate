@@ -7,7 +7,7 @@ import com.chafan.mvc.project.mapper.ParentMapper;
 import com.chafan.mvc.project.mapper.SysAdminMapper;
 import com.chafan.mvc.project.service.IPushMessageInfoService;
 import com.chafan.mvc.project.service.ISysAdminService;
-import com.chafan.mvc.utils.MD5Utils;
+
 import com.chafan.mvc.utils.RandomName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ class MvcApplicationTests {
     @Autowired
     SysAdminMapper sysAdminMapper;
 
-    MD5Utils md5Utils = new MD5Utils();
 
     RandomName name = new RandomName();
 
@@ -47,19 +46,7 @@ class MvcApplicationTests {
         sysAdminService.addUser(user);
     }
 
-    /**
-     * 登陆测试
-     */
-    @Test
-    void loginTest(){
-        String Id = "15681026356";
-        String password = "123456";
-        if(md5Utils.getSaltverifyMD5(password, sysAdminService.getPassword(Id).getPassword())){
-            System.out.println("登陆成功");
-        }else{
-            System.out.println("登陆失败");
-        }
-    }
+
 
 
     /**

@@ -3,23 +3,19 @@ package com.chafan.mvc.project.controller;
 
 import com.chafan.mvc.project.entity.vo.Commute;
 import com.chafan.mvc.project.service.IPushMessageInfoService;
-import com.chafan.mvc.utils.JsonFile;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 /**
  * <p>
@@ -50,7 +46,7 @@ public class PushMessageInfoController {
         return pushMessageInfoService.countClassMessage(personNo);
     }
 
-    @ApiOperation("通勤率统计")
+    @ApiOperation("班级通勤率统计")
     @GetMapping("/commute")
     public List<Commute> commute() {
 

@@ -5,14 +5,13 @@ import com.chafan.mvc.project.entity.SysAdmin;
 import com.chafan.mvc.project.mapper.SysAdminMapper;
 import com.chafan.mvc.project.service.ISysAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chafan.mvc.utils.MD5Utils;
 import com.chafan.mvc.utils.SaltUtil;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * <p>
@@ -25,7 +24,6 @@ import java.util.Map;
 @Service
 public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> implements ISysAdminService {
 
-    MD5Utils md5Utils = new MD5Utils();
 
     /**
      * 添加新用户
@@ -52,7 +50,7 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Override
     public SysAdmin getPassword(String userId) {
         QueryWrapper query = new QueryWrapper();
-        query.select("password").eq("user_id",userId);
+        query.select("password","salt").eq("user_id",userId);
         return baseMapper.selectOne(query);
     }
 
@@ -66,17 +64,22 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
     @Override
     public String updateUser(String userId, String oldPassword,String newPassword) {
             SysAdmin admin = new SysAdmin();
-        if(md5Utils.getSaltverifyMD5(oldPassword,getPassword(userId).getPassword())){
-            admin.setUserId(userId);
-            admin.setPassword(md5Utils.getSaltMD5(newPassword));
-            admin.setUsername(getPassword(userId).getUsername());
-            admin.setDatetime(LocalDateTime.now());
-            if (baseMapper.updateById(admin)==1) return "修改密码成功";
+            String password = getPassword(userId).getPassword();
+            String salt = getPassword(userId).getSalt();
+            Md5Hash md5Hash = new Md5Hash(oldPassword,salt,1024);
+            if (password.equals(md5Hash.toHex())){
+                String salt1 = SaltUtil.getSalt(10);
+                Md5Hash md5Hash1 = new Md5Hash(newPassword,salt1,1024);
+                admin.setPassword(md5Hash1.toHex());
+                admin.setUserId(userId);
+                admin.setSalt(salt1);
+                admin.setDatetime(LocalDateTime.now());
+                if (baseMapper.updateById(admin)==1) return "修改密码成功";
 
-        }else{
-            return "旧密码不正确";
-        }
-        return "修改密码成功";
+            }else{
+                return "旧密码不正确";
+            }
+            return "修改密码成功";
     }
 
     /**

@@ -3,12 +3,10 @@ package com.chafan.mvc.project.controller;
 
 import com.chafan.mvc.project.entity.SysAdmin;
 import com.chafan.mvc.project.service.ISysAdminService;
-import com.chafan.mvc.utils.MD5Utils;
 import com.chafan.mvc.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -92,7 +90,5 @@ public class SysAdminController {
         map.put("data",sysAdminService.deleteUser(id));
         return R.ok(map);
     }
-
-
 
 }
