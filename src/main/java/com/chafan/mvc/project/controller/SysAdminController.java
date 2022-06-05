@@ -47,8 +47,11 @@ public class SysAdminController {
     @ApiOperation("修改用户密码")
     @PostMapping("/updateUser")
     public R updateUser(String userId, String oldPassword,String newPassword){
+        System.out.println(userId);
+        System.out.println(oldPassword);
+        System.out.println(newPassword);
         if(sysAdminService.updateUser(userId, oldPassword, newPassword).equals("修改密码成功")){
-            System.out.println("修改密码成功");
+            return R.ok("修改密码成功");
         }
             return R.ok("修改密码失败");
     }

@@ -25,26 +25,22 @@
             <button type="button" class="layui-btn layui-btn-danger" lay-submit lay-filter="delete">删除</button>
         </div>
 
-        <div class="layui-col-md4" style="width:400px; height:300px; border:3px solid #EEEEEE;margin-top:10px">
-
+<!--        注册账号-->
+        <div class="layui-col-md4" style="width:400px; height:270px; border:3px solid #EEEEEE;margin-top:10px">
             <div style="text-align:center;font-size:16px">注册新账号</div>
-
             <form class="layui-form " style="margin:20px 0px 0px 20px;">
-
                 <div class="layui-form-item">
                     <label class="layui-form-label">账号:</label>
                     <div class="layui-input-inline">
                         <input type="text" name="userId" id="userId" placeholder="请输入账号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
                 <div class="layui-form-item">
                     <label class="layui-form-label">密码:</label>
                     <div class="layui-input-inline">
                         <input type="text" name="password" id="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-
                 <div class="layui-form-item">
                     <label class="layui-form-label">姓名:</label>
                     <div class="layui-input-inline">
@@ -59,8 +55,47 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+<!--        修改密码-->
+        <div class="layui-col-md4" style="width:400px; height:270px; border:3px solid #EEEEEE;margin-top:10px">
+
+            <div style="text-align:center;font-size:16px">修改密码</div>
+
+            <form class="layui-form " style="margin:20px 0px 0px 20px;">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">账号:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userId" id="userId1" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">旧密码:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="oldPassword" id="oldPassword"  placeholder="请输入旧密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">新密码:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="newPassword" id="newPassword"  placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="update">确认修改</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
 
         </div>
+
+
     </div>
 
 
@@ -72,6 +107,7 @@
 
 
 <script>
+
     layui.use(['table','laypage','form','jquery'], function () {
         var table = layui.table,
             form = layui.form,
@@ -84,7 +120,7 @@
             url:'/sys-admin/getUserList',
             method: 'get',
             even: true,
-            height: 500,
+            height: 550,
             width: 550,
             cols:[
                 [
@@ -154,6 +190,31 @@
                         parent.location.reload();
                     }else{
                         layer.msg("注册失败",function() {time:1000})
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(update)',function(data){
+
+            var userId = $.trim($("#userId1").val());
+            var oldPassword = $.trim($("#oldPassword").val());
+            var newPassword = $.trim($("#newPassword").val());
+            $.ajax({
+                url:'/sys-admin/updateUser',
+                type:'POST',
+                data:{
+                    "userId":userId,
+                    "oldPassword":oldPassword,
+                    "newPassword":newPassword
+                },
+                success:function(data){
+                    if(data.msg=="修改密码成功"){
+                        layer.msg("修改密码成功",function() {time:1000});
+                        parent.location.reload();
+                    }else{
+                        layer.msg("修改密码失败",function() {time:1000})
                     }
                 }
             });

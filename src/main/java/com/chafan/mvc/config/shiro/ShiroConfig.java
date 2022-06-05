@@ -36,7 +36,6 @@ public class ShiroConfig {
         Map<String, String> map = new HashMap<>();
         //map.put("/home.html", "authc"); // 访问资源，受限资源 authc（过滤器）代表请求这个资源需要认证和授权
         map.put("/sys-admin/login","anon");
-        map.put("http://192.168.210.1:7777/swagger-ui.html","anon");
         map.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         // 1.3默认认证界⾯路径
