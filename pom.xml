@@ -178,12 +178,20 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--页面跳转找不到资源 问题-->
-<!--        <dependency>-->
-<!--            <groupId>net.sourceforge.nekohtml</groupId>-->
-<!--            <artifactId>nekohtml</artifactId>-->
-<!--            <version>1.9.22</version>-->
-<!--        </dependency>-->
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.servlet-api</artifactId>
+                    <groupId>javax.servlet</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
 
         <!--**根据多个字段联合主键增删改查**
               mybatisplus只支持一个主键，如何使mybatisplus支持对多个主键的增删改查？

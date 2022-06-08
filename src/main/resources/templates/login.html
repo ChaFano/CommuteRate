@@ -100,6 +100,17 @@
             </div>
         </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-inline" style="display: flex;justify-content:space-between;">
+                <input type="text" name="code" id="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" style="width:150px; ">
+                <a href="javascript:changeImg();" rel="external nofollow" title="点击更换验证码">
+                    <img id= "img" th:src="@{/sys-admin/getVerify}" alt="验证码"/>
+                </a>
+
+            </div>
+        </div>
+
 <!--        <div class="layui-form-item">-->
 <!--                <label class="layui-form-label">记住密码</label>-->
 <!--              <div class="layui-input-block">-->
@@ -135,23 +146,29 @@
         form.on('submit(login)', function(data){
             //layer.msg(JSON.stringify(data.field));
 
-            var $1 = $.trim($("#username").val());
-            var $2 = $.trim($("#password").val());
+            var username = $.trim($("#username").val());
+            var password = $.trim($("#password").val());
+            var code = $.trim($("#code").val());
 
-            if($1 == ''){
+            if(username == ''){
                 layer.msg('用户名不能为空',function() {time:2000});
                 return false;
             }
 
-            if($2 == ''){
+            if(password == ''){
                 layer.msg('密码不能为空',function() {time:2000});
+                return false;
+            }
+
+            if(code == ''){
+                layer.msg('验证码不能为空',function() {time:2000});
                 return false;
             }
 
             $.ajax({
                 url:'/sys-admin/login',//发出请求
                 type:'post',
-                data:{"id":$1,"password":$2},
+                data:{"id":username,"password":password,"code":code},
                 success:function (data)  {
                     console.log(data)
                     if(data.code==1){//返回1说明登录成功
@@ -169,6 +186,11 @@
 
 
     });
+
+    //验证码刷新
+    function changeImg() {
+        document.getElementById("img").src = "/sys-admin/getVerify?r=" + Math.random();;
+    }
 </script>
 
 

@@ -9,6 +9,7 @@ import com.chafan.mvc.project.service.IPushMessageInfoService;
 import com.chafan.mvc.project.service.ISysAdminService;
 
 import com.chafan.mvc.utils.RandomName;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -115,4 +116,7 @@ class MvcApplicationTests {
             System.out.println(parentMapper.updateById(parent));
         }
     }
+
+
+
 }

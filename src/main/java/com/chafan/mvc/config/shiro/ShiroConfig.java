@@ -38,6 +38,7 @@ public class ShiroConfig {
         Map<String, String> map = new HashMap<>();
         //map.put("/home.html", "authc");
         map.put("/sys-admin/login","anon");// 登录界面所有都可以访问
+        map.put("/sys-admin/getVerify","anon");// 验证码放行
         map.put("/**","authc");// 访问资源，受限资源 authc（过滤器）代表请求这个资源需要认证和授权
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         // 1.3默认认证界⾯路径
