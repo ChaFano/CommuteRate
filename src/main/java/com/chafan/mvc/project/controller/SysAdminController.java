@@ -12,6 +12,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -75,6 +76,7 @@ public class SysAdminController {
         map.put("code",0);
         return R.ok(map);
     }
+
 
     @ApiOperation("获取所有用户")
     @GetMapping("/getUserList")

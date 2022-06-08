@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -22,6 +22,9 @@ import lombok.NonNull;
  * @since 2022-05-15
  */
 @Data
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_admin")
 @ApiModel(value="SysAdmin对象", description="")
@@ -46,6 +49,8 @@ public class SysAdmin implements Serializable {
     @ApiModelProperty(value = "盐")
     private String salt;
 
+    // 定义权限集合
+    private List<Role> roles;
 
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <!-- 引入 layui.css -->
     <link rel="stylesheet" th:href="@{//unpkg.com/layui@2.6.8/dist/css/layui.css}">
@@ -37,7 +38,8 @@
                     <li class="layui-nav-item layui-hide layui-show-md-inline-block">
                         <a href="javascript:;">
                             <img src="https://cn.bing.com/th?id=OHR.GreatTits_ZH-CN0546267922_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp" class="layui-nav-img">
-                            茶凡_Matrix
+                            <span shiro:principal></span>
+
                         </a>
                         <!-- 设置登录退出的地方 -->
                         <dl class="layui-nav-child">
@@ -62,7 +64,7 @@
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree " lay-filter="test">
 
-                        <li class="layui-nav-item layui-nav-itemed">
+                        <li class="layui-nav-item layui-nav-itemed" shiro:hasRole="admin">
                             <!-- 展开作用不加超链接-->
                             <a class="" href="javascript:;">系统管理</a>
                             <dl class="layui-nav-child">
@@ -70,6 +72,7 @@
                                 <dd><a href="/admin">管理员信息</a></dd>
                             </dl>
                         </li>
+
                         <li class="layui-nav-item">
                             <!-- 展开作用不加超链接-->
                             <a href="javascript:;">数据分析</a>

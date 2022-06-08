@@ -7,6 +7,8 @@ import com.chafan.mvc.project.entity.Parent;
 import com.chafan.mvc.project.mapper.ParentMapper;
 import com.chafan.mvc.project.service.IParentService;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
  * @since 2022-05-15
  */
 @Service
+@CacheConfig(cacheNames = "parent_cache")
 public class ParentServiceImpl extends ServiceImpl<ParentMapper, Parent> implements IParentService {
 
     /**
@@ -28,6 +31,7 @@ public class ParentServiceImpl extends ServiceImpl<ParentMapper, Parent> impleme
      * @return
      */
     @Override
+    @Cacheable(cacheNames = {"parent_cache"})
     public List getParentList() {
         QueryWrapper query = new QueryWrapper();
         query.select("studentName","departmentId","parentDeptId","personNo");

@@ -1,7 +1,9 @@
 package com.chafan.mvc.config.shiro;
 
-import com.chafan.mvc.realm.CustomerRealm;
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.chafan.mvc.realm.UserRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -34,9 +36,9 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         // 1.2配置完安全管理器，你还得告诉拦截器你的系统那些是受限资源哪些是公共资源
         Map<String, String> map = new HashMap<>();
-        //map.put("/home.html", "authc"); // 访问资源，受限资源 authc（过滤器）代表请求这个资源需要认证和授权
-        map.put("/sys-admin/login","anon");
-        map.put("/**","authc");
+        //map.put("/home.html", "authc");
+        map.put("/sys-admin/login","anon");// 登录界面所有都可以访问
+        map.put("/**","authc");// 访问资源，受限资源 authc（过滤器）代表请求这个资源需要认证和授权
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         // 1.3默认认证界⾯路径
         shiroFilterFactoryBean.setLoginUrl("/login");
@@ -56,7 +58,7 @@ public class ShiroConfig {
     @Primary
     public Realm getRealm(){
         // realm是⽤来定义你的校验⽅式，域对象，设置你的凭证匹配器，加密⽅式，散列次数
-        CustomerRealm customerRealm = new CustomerRealm();
+        UserRealm userRealm = new UserRealm();
         // 1.设置凭证匹配器
         HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
         // 2.匹配器中使⽤的摘要算法
@@ -64,9 +66,19 @@ public class ShiroConfig {
         // 3.散列的次数
         credentialsMatcher.setHashIterations(1024);
 
-        customerRealm.setCredentialsMatcher(credentialsMatcher);
+        // 4.开启本地 缓存管理器 还可以使用 redis 做缓存
+        userRealm.setCachingEnabled(true);
+        userRealm.setAuthenticationCachingEnabled(true);
+        userRealm.setAuthorizationCachingEnabled(true);
+        userRealm.setCacheManager(new EhCacheManager());
 
-        return customerRealm;
+        userRealm.setCredentialsMatcher(credentialsMatcher);
+        return userRealm;
+    }
+
+    @Bean(name = "shiroDialect")
+    public ShiroDialect shiroDialect(){
+        return new ShiroDialect();
     }
 
 }

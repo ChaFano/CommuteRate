@@ -7,6 +7,8 @@ import com.chafan.mvc.project.service.IPushMessageInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chafan.mvc.utils.TimeUtils;
 import lombok.experimental.var;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,6 +24,7 @@ import static java.awt.SystemColor.info;
  * @since 2022-05-15
  */
 @Service
+@CacheConfig(cacheNames = "push_message_cache")
 public class PushMessageInfoServiceImpl extends ServiceImpl<PushMessageInfoMapper, PushMessageInfo> implements IPushMessageInfoService {
 
     TimeUtils timeUtils = new TimeUtils();
@@ -32,6 +35,7 @@ public class PushMessageInfoServiceImpl extends ServiceImpl<PushMessageInfoMappe
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "push_message_cache")
     public int countMonthMessage(String pushDate) {
         QueryWrapper query = new QueryWrapper();
         query.likeRight("pushDate",pushDate);
@@ -45,6 +49,7 @@ public class PushMessageInfoServiceImpl extends ServiceImpl<PushMessageInfoMappe
      * @return
      */
     @Override
+    @Cacheable(cacheNames = "push_message_cache")
     public int countClassMessage(String personNo) {
         QueryWrapper query = new QueryWrapper();
         if(personNo != "" && personNo != null){

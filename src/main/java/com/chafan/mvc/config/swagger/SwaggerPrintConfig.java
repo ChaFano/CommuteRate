@@ -33,6 +33,7 @@ public class SwaggerPrintConfig  implements ApplicationListener<WebServerInitial
             //获取应用名
             String applicationName = event.getApplicationContext().getApplicationName();
             log.info("项目启动启动成功！接口文档地址: http://"+host+":"+port+applicationName+"/swagger-ui.html");
+            log.info("系统登录地址: http://localhost"+":"+port+applicationName+"/login");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

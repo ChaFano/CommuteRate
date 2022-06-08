@@ -7,6 +7,7 @@ import com.chafan.mvc.project.service.IPushMessageInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,7 @@ public class PushMessageInfoController {
         }
         return list2;
     }
+
 
     @ApiOperation("年级通勤率统计")
     @GetMapping("/commuteGrade")

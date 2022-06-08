@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import com.chafan.mvc.project.service.IParentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class ParentController {
 
     @Autowired
     IParentService parentService;
+
 
     @ApiOperation("获取用户信息")
     @GetMapping("/getParentList")

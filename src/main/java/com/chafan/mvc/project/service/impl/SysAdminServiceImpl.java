@@ -1,12 +1,15 @@
 package com.chafan.mvc.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.chafan.mvc.project.entity.Perms;
 import com.chafan.mvc.project.entity.SysAdmin;
 import com.chafan.mvc.project.mapper.SysAdminMapper;
 import com.chafan.mvc.project.service.ISysAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chafan.mvc.utils.SaltUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,9 +24,12 @@ import java.util.List;
  * @author Chafan
  * @since 2022-05-15
  */
+@Slf4j
 @Service
 public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> implements ISysAdminService {
 
+    @Autowired
+    SysAdminMapper sysAdminMapper;
 
     /**
      * 添加新用户
@@ -105,8 +111,20 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
 
     @Override
     public SysAdmin findByUserId(String userId) {
-        System.out.println(baseMapper.selectById(userId));
-        return baseMapper.selectById(userId);
+        QueryWrapper query = new QueryWrapper();
+        query.select("user_id","username","password","datetime","salt").eq("user_id",userId);
+        log.info(baseMapper.selectOne(query).toString());
+        return baseMapper.selectOne(query);
+    }
+
+    @Override
+    public SysAdmin findRolesByUserId(String id) {
+        return sysAdminMapper.findRolesByUserId(id);
+    }
+
+    @Override
+    public List<Perms> findPermsByRoleId(String id) {
+        return sysAdminMapper.findPermsByRoleId(id);
     }
 
 

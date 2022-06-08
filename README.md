@@ -77,8 +77,15 @@ series: [{
 
 
 #### 最近跟新
+
 1、更新了 shiro 的用户认证，资源访问验证。
+
 2、更新了修改密码功能
+
+3、跟新了shiro 授权管理 
+
+4、开始缓存 使图标加载二次加载速度更快
+
 #### 后续计划
 
 1、添加验证码功能
@@ -88,3 +95,11 @@ series: [{
 
 #### 特技
 CSDN 茶凡_Matrix [https://blog.csdn.net/weixin_45833112?type=blog](https://blog.csdn.net/weixin_45833112?type=blog)
+
+### 权限
+用户 --> 角色 ---> 权限 ---> 资源
+
+shiro 标签使用
+https://blog.csdn.net/sayyy/article/details/115691278
+
+缓存 https://blog.csdn.net/qq_38974634/article/details/80650810
